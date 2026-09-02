@@ -89,7 +89,7 @@ which silently destroys the running runtime mid-session. Keeping it outside the
 tree means no relative path from the workspace resolves to it.
 
 ```bash
-git clone https://github.com/NousResearch/hermes-agent.git
+git clone https://github.com/Nag112/hermes-agent.git
 cd hermes-agent
 
 # Create venv with Python 3.11, OUTSIDE the source tree

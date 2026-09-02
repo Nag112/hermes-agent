@@ -135,7 +135,7 @@ Then use `python3.13` in place of `python` in the commands below
 ### 2. Clone Hermes
 
 ```bash
-git clone https://github.com/NousResearch/hermes-agent.git
+git clone https://github.com/Nag112/hermes-agent.git
 cd hermes-agent
 ```
 

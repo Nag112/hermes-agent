@@ -138,8 +138,8 @@ _UPDATE_CHECK_CACHE_SECONDS = 6 * 3600
 # (e.g. nix-built hermes — no local git history to count against).
 UPDATE_AVAILABLE_NO_COUNT = -1
 
-_UPSTREAM_REPO_URL = "https://github.com/NousResearch/hermes-agent.git"
-_OFFICIAL_REPO_CANONICAL = "github.com/nousresearch/hermes-agent"
+_UPSTREAM_REPO_URL = "https://github.com/Nag112/hermes-agent.git"
+_OFFICIAL_REPO_CANONICAL = "github.com/nag112/hermes-agent"
 
 
 def _canonical_github_remote(url: str | None) -> str:
