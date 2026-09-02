@@ -2127,7 +2127,7 @@ DEFAULT_CONFIG = {
         "nudge_interval": 10,
         # External memory provider plugin (empty = built-in only).
         # Set to a provider name to activate: "openviking", "mem0",
-        # "hindsight", "holographic", "retaindb", "byterover".
+        # "hindsight", "holographic", "retaindb", "byterover", "qdrant".
         # Only ONE external provider is allowed at a time.
         "provider": "",
     },

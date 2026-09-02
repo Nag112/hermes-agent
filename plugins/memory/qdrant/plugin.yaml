@@ -1,0 +1,5 @@
+name: qdrant
+version: 0.1.0
+description: "Qdrant RAG memory — Ollama/OpenAI embeddings with vector search, no file stores."
+hooks:
+  - on_session_end
