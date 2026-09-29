@@ -1,0 +1,59 @@
+# Fork-only: pull NousResearch/hermes-agent main into Nag112/hermes-agent.
+# Never enable this on the upstream repo (the job is gated below).
+name: Sync NousResearch main
+
+on:
+  schedule:
+    # 10:00 Asia/Kolkata == 04:30 UTC. Every-other-day gate is in the job.
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Run even on an off-cadence day"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-upstream-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Merge upstream main
+    if: github.repository == 'Nag112/hermes-agent'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Cadence (every other day, 10:00 IST)
+        id: cadence
+        run: |
+          day="$(TZ=Asia/Kolkata date +%j)"
+          echo "ist_day_of_year=$day" >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" != "schedule" ]]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Even IST day-of-year → run. Odd → skip (alternate days).
+          if (( 10#$day % 2 != 0 )); then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Skipping IST day-of-year $day (odd)."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        if: steps.cadence.outputs.skip != 'true'
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Merge upstream and open PR
+        if: steps.cadence.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPSTREAM_URL: https://github.com/NousResearch/hermes-agent.git
+        run: bash scripts/sync_upstream_nous.sh
